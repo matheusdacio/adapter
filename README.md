@@ -58,11 +58,3 @@ java -cp src Main
 4. **LeitorXMLAdapter** → **LeitorXMLAntigo**: O adapter usa a classe legada
 5. **LeitorJSON** → **LeitorDados**: Implementa a interface
 6. **LeitorXMLAdapter** → **LeitorDados**: Implementa a interface
-
-## Requisitos Atendidos
-
-✅ **3 classes de domínio**: Model, View, Controller  
-✅ **2 relacionamentos**: Controller-Model, Controller-View  
-✅ **2 padrões de projeto**: Adapter e MVC  
-✅ **Implementação em Java**: Código funcional e didático  
-✅ **Código claro**: Comentários explicativos e estrutura organizada 
