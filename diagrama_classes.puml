@@ -1,0 +1,83 @@
+@startuml Sistema de Leitura de Dados
+
+' Estilo do diagrama
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam classFontStyle bold
+
+' Interface LeitorDados
+interface LeitorDados {
+    + lerDados(): String
+}
+
+' Classe LeitorJSON
+class LeitorJSON {
+    + lerDados(): String
+}
+
+' Classe legada LeitorXMLAntigo
+class LeitorXMLAntigo {
+    + lerXML(): String
+    + processarXML(): String
+}
+
+' Classe Adapter
+class LeitorXMLAdapter {
+    - leitorXMLAntigo: LeitorXMLAntigo
+    + LeitorXMLAdapter(leitorXMLAntigo: LeitorXMLAntigo)
+    + lerDados(): String
+    - converterXMLParaJSON(xmlData: String): String
+}
+
+' Classes do MVC
+class Model {
+    - dados: String
+    - tipoLeitor: String
+    + Model()
+    + setDados(dados: String): void
+    + setTipoLeitor(tipoLeitor: String): void
+    + getDados(): String
+    + getTipoLeitor(): String
+    + getDadosFormatados(): String
+}
+
+class View {
+    + exibirDados(model: Model): void
+    + exibirSeparador(): void
+    + exibirMensagem(mensagem: String): void
+}
+
+class Controller {
+    - model: Model
+    - view: View
+    - leitorJSON: LeitorDados
+    - leitorXMLAdapter: LeitorDados
+    + Controller(model: Model, view: View)
+    + processarComJSON(): void
+    + processarComXML(): void
+    + processarTodos(): void
+}
+
+class Main {
+    + main(args: String[]): void
+}
+
+' Relacionamentos
+LeitorJSON ..|> LeitorDados : implements
+LeitorXMLAdapter ..|> LeitorDados : implements
+LeitorXMLAdapter --> LeitorXMLAntigo : uses
+
+Controller --> Model : updates
+Controller --> View : calls
+Controller --> LeitorDados : uses
+
+Main --> Controller : creates
+Main --> Model : creates
+Main --> View : creates
+
+' Notas explicativas
+note right of LeitorXMLAntigo : Classe Legada\n(Interface Incompatível)
+note right of LeitorXMLAdapter : Padrão Adapter\n(Converte Interface)
+note right of Controller : Padrão MVC\n(Coordena Lógica)
+
+@enduml 
